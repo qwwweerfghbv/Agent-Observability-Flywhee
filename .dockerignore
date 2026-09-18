@@ -1,0 +1,48 @@
+# ---- Python 缓存与产物 ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---- 虚拟环境 ----
+venv/
+.venv/
+ENV/
+
+# ---- IDE / OS ----
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# ---- Git / CI（镜像不需要）----
+.git/
+.gitignore
+.github/
+
+# ---- 环境与密钥：严禁进镜像 ----
+.env
+.env.local
+
+# ---- 运行时数据：用卷挂载，不进镜像 ----
+data/
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# ---- 开发期临时脚本 ----
+_dev/
+
+# ---- 前端依赖与本地构建产物：镜像内重新构建 ----
+node_modules/
+web/node_modules/
+web/dist/
+web/*.tsbuildinfo
+
+# ---- 文档与评测产物：非运行必需 ----
+docs/
+tests/eval/results/

@@ -1,0 +1,23 @@
+# 一键起全栈（后端 + React 前端，单端口 8000）。默认 Mock 模式，无需任何 API Key。
+#   docker compose up --build
+# 接入真实模型：复制 .env.example 为 .env 填好 LLM_PROVIDER/QWEN_API_KEY，compose 会自动读取做变量替换。
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: agent-observability-flywhee:latest
+    container_name: job-agent
+    ports:
+      - "8000:8000"
+    environment:
+      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+      QWEN_API_KEY: ${QWEN_API_KEY:-}
+      QWEN_MODEL: ${QWEN_MODEL:-qwen-plus}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4}
+      DATABASE_URL: ${DATABASE_URL:-sqlite+aiosqlite:///./data/job_agent.db}
+    volumes:
+      # 运行时数据持久化（DB / 上传 / 可观测落盘 / 轨迹）
+      - ./data:/app/data
+    restart: unless-stopped

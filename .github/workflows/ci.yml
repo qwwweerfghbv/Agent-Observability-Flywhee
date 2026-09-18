@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+# 同一分支的新推送取消尚在运行的旧任务，节省额度
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.11"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 全程 Mock 模式，不触网、不消耗任何 Token，保证 CI 确定性
+      - name: Run unit tests (offline, mock mode)
+        env:
+          LLM_PROVIDER: mock
+        run: |
+          pytest tests/unit -q
+
+      # 示例即文档：确保 README/examples 里承诺的脚本始终可运行
+      - name: Smoke-run examples (mock mode)
+        env:
+          LLM_PROVIDER: mock
+        run: |
+          python examples/01_score_job_mock.py
+          python examples/02_observability_trace.py
+          python examples/03_hallucination_grounding.py
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ruff
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+
+      # 只拦截「真错误」（语法错误/未定义名/无效比较），不做风格挑刺
+      - name: Ruff (critical rules only)
+        run: |
+          ruff check --select=E9,F63,F7,F82 --target-version=py39 app examples tests

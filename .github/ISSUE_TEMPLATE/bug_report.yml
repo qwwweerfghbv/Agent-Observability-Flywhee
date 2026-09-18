@@ -1,0 +1,60 @@
+name: "🐛 Bug 报告 / Bug Report"
+description: "报告一个可复现的问题 / Report a reproducible problem"
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢提交问题！请先确认已在 **Mock 模式**（`LLM_PROVIDER=mock`）下复现，以排除 API Key/额度等环境因素。
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 问题描述 / What happened?
+      description: 清晰描述遇到的现象，以及你期望的正确行为。
+      placeholder: 期望……，实际……
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤 / Steps to reproduce
+      description: 给出最小复现路径（命令、输入、点击流程）。
+      placeholder: |
+        1. cp .env.example .env（保持 mock）
+        2. uvicorn app.main:app --port 8000
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: 项目版本 / Version
+      description: 见 CHANGELOG.md 或 git commit。
+      placeholder: v0.3.0 / commit hash
+    validations:
+      required: true
+  - type: dropdown
+    id: provider
+    attributes:
+      label: LLM Provider
+      options:
+        - mock
+        - qwen
+        - openai
+        - 其他 / Other
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: 操作系统 & Python 版本 / OS & Python
+      placeholder: Windows 11 / Python 3.9.2
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 相关日志 / Relevant logs
+      description: 粘贴后端控制台输出或 `data/observability/` 下的相关片段（请勿包含 API Key 等敏感信息）。
+      render: shell

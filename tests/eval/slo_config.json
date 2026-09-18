@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "sampling_rate": 1.0,
+  "slo": [
+    {"layer": "L1", "metric": "disk_free_gb", "op": ">=", "value": 5, "level": "critical"},
+    {"layer": "L2", "metric": "llm_error_rate", "op": "<=", "value": 0.05, "level": "warning"},
+    {"layer": "L2", "metric": "degraded_rate", "op": "<=", "value": 0.01, "level": "critical"},
+    {"layer": "L3", "metric": "request_error_rate", "op": "<=", "value": 0.02, "level": "critical"},
+    {"layer": "L3", "metric": "ttft_p95_ms", "op": "<=", "value": 3000, "level": "warning"},
+    {"layer": "L3", "metric": "duration_p95_ms", "op": "<=", "value": 30000, "level": "warning"},
+    {"layer": "L3", "metric": "stream_gap_median_ms", "op": ">=", "value": 20, "level": "critical"},
+    {"layer": "L4", "metric": "memory_error_rate", "op": "<=", "value": 0.0, "level": "critical"},
+    {"layer": "L4", "metric": "memory_warn_rate", "op": "<=", "value": 0.05, "level": "warning"},
+    {"layer": "评测", "metric": "judge_span_persist_rate", "op": "==", "value": 1.0, "level": "warning"}
+  ],
+  "calibration_history": []
+}

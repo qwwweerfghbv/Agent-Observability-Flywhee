@@ -1,0 +1,114 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+.venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Data (keep directory structure)
+data/trajectories/*.json
+data/sessions/*.json
+data/resumes/*
+data/exports/*
+!data/trajectories/.gitkeep
+!data/sessions/.gitkeep
+!data/resumes/.gitkeep
+!data/exports/.gitkeep
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# ---- Observability runtime artifacts (M1-M3) ----
+# 采集落盘：请求/巡检/告警状态/轮转归档（均为运行时产物，不入库）
+data/observability/*
+!data/observability/.gitkeep
+
+# 监控报告（monitor.py 每日输出）与评测 span 落盘
+tests/eval/results/monitor_*.json
+tests/eval/results/eval_traces/
+
+# 评测运行输出（run_cases 落盘）与标准层产物（M5：flake/元评测/周报/飞轮）
+tests/eval/results/run_*.json
+tests/eval/results/run_*_summary.txt
+tests/eval/results/flywheel_run_*.json
+tests/eval/results/flake_cases.json
+tests/eval/results/meta_eval_*.json
+tests/eval/results/flywheel_weekly_*.json
+tests/eval/results/production_*.json
+
+# 飞轮回流产物：坏例快照/待评审队列/评审归档/合入评测集
+tests/eval/results/bad_cases/*
+!tests/eval/results/bad_cases/.gitkeep
+
+# ---- 开源前补充：用户上传文件（含真实简历 PDF/图片，严禁入库）----
+data/uploads/*
+!data/uploads/.gitkeep
+!data/uploads/files/
+!data/uploads/images/
+data/uploads/files/*
+data/uploads/images/*
+!data/uploads/files/.gitkeep
+!data/uploads/images/.gitkeep
+
+# ---- 前端依赖与构建缓存 ----
+node_modules/
+*.tsbuildinfo
+web/dist/
+
+# ---- 评测运行产物：含夹具PII与对话样本，一律不入库（评测集代码本身入库）----
+tests/eval/results/*.json
+tests/eval/results/*_summary.txt
+!tests/eval/results/.gitkeep
+
+# ---- 开发期临时脚本/日志（统一存放于 _dev/，不入库）----
+_dev/
